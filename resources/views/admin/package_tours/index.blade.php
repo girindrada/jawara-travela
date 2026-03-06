@@ -25,34 +25,66 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
 
-                @forelse ($packageTours as $packageTour)
-                    <div class="item-card flex flex-row justify-between items-center">
-                        <div class="flex flex-row items-center gap-x-3">
-                            <img src="{{ Storage::url($packageTour->thumbnail) }}" alt="tour thumbnail" class="rounded-2xl object-cover w-[120px] h-[90px]">
-                            <div class="flex flex-col">
-                                <h3 class="text-indigo-950 text-xl font-bold">{{ $packageTour->name }}</h3>
-                            <p class="text-slate-500 text-sm">{{ $packageTour->category->name }}</p>
-                            </div>
-                        </div> 
-                        <div  class="hidden md:flex flex-col">
-                            <p class="text-slate-500 text-sm">Price</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="border-b bg-gray-50 text-left">
+                            <th class="p-4">Tour Name</th>
+                            <th class="p-4">Category</th>
+                            <th class="p-4">Price</th>
+                            <th class="p-4">Days</th>
+                            <th class="p-4 text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @forelse ($packageTours as $packageTour)
+                        <tr class="border-b hover:bg-gray-50">
+
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <img 
+                                        src="{{ Storage::url($packageTour->thumbnail) }}"
+                                        class="w-[80px] h-[60px] object-cover rounded-lg"
+                                    >
+                                    <span class="font-semibold text-indigo-950">
+                                        {{ $packageTour->name }}
+                                    </span>
+                                </div>
+                            </td>
+
+                            <td class="p-4">
+                                {{ $packageTour->category->name }}
+                            </td>
+
+                            <td class="p-4">
                                 Rp {{ number_format($packageTour->price, 0, ',', '.') }}
-                            </h3>
-                        </div>
-                        <div  class="hidden md:flex flex-col">
-                            <p class="text-slate-500 text-sm">Total Days</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">{{ $packageTour->days }} Days</h3>
-                        </div>
-                        <div class="hidden md:flex flex-row items-center gap-x-3">
-                            <a href="{{ route('admin.package_tours.show', $packageTour) }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                                Manage
-                            </a>
-                        </div>
-                    </div>
-                @empty
-                    <p>Belum ada data paket tour</p>
-                @endforelse                
+                            </td>
+
+                            <td class="p-4">
+                                {{ $packageTour->days }} Days
+                            </td>
+
+                            <td class="p-4">
+                                <a href="{{ route('admin.package_tours.show', $packageTour) }}"
+                                class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                                    Manage
+                                </a>
+                            </td>
+
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-8 text-slate-500">
+                                <p>Belum ada data paket tour</p>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+
+                <div class="mt-6 bg-white p-4 rounded-lg">
+                    {{ $packageTours->links('pagination::simple-tailwind') }}
+                </div>
 
             </div>
         </div>

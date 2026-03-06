@@ -21,8 +21,10 @@
 
                     <div class="mt-4">
                         <x-input-label for="thumbnail" :value="__('thumbnail')" />
-                        <img src="{{ Storage::url($packageTour->thumbnail) }}" alt="thumbnail" class="rounded-2xl object-cover w-[120px] h-[90px]">
-                        <x-text-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail"  autofocus autocomplete="thumbnail" />
+                        <div class="flex gap-3">
+                            <img src="{{ Storage::url($packageTour->thumbnail) }}" alt="thumbnail" class="rounded-2xl object-cover w-[120px] h-[90px]">
+                            <x-text-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail"  autofocus autocomplete="thumbnail" />
+                        </div>
                         <x-input-error :messages="$errors->get('thumbnail')" class="mt-2" />
                     </div>
 
@@ -70,13 +72,18 @@
 
                     <hr class="my-5">
                     
-                    <div class="flex gap-6">
-                        @foreach($latestPhotos as $latestPhoto)
+                    <div class="mt-4">
+                        <x-input-label class="text-red-500" :value="__('*notes: maximal 10Mb')" />
+                    </div>
+                    <div class=" gap-6">
+                        @foreach($latestPhotos as $i => $latestPhoto)
                             <div class="mt-4">
-                                <x-input-label for="photo" :value="__('photo')" />
-                                <img src="{{ Storage::url($latestPhoto->photo)}}" alt="photos tour" class="rounded-2xl object-cover w-[120px] h-[90px]">
-                                <x-text-input id="photo" class="block mt-1 w-full" type="file" name="photos[]"   autofocus autocomplete="photo" />
-                                <x-input-error :messages="$errors->get('photo')" class="mt-2" />
+                                <x-input-label for="photo" :value="__('photo ' . $i+1)" />
+                                <div class="flex gap-3">
+                                    <img src="{{ Storage::url($latestPhoto->photo)}}" alt="photos tour" class="rounded-2xl object-cover w-[120px] h-[90px]">
+                                    <x-text-input id="photo" class="block mt-1 w-full" type="file" name="photos[]"   autofocus autocomplete="photo" />
+                                </div>
+                                <x-input-error :messages="$errors->get('photos.' . $i)" class="mt-2" />
                             </div>
                         @endforeach
                     </div>

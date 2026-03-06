@@ -25,7 +25,7 @@ class StorePackageTourRequest extends FormRequest
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'name' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
-            'thumbnail' => ['required', 'image', 'mimes:png,jpg,jpeg'],
+            'thumbnail' => ['required', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
             'price' => ['required', 'integer'],
             'days' => ['required', 'integer'],
             'about' => ['required', 'string', 'max:6555'],
@@ -44,7 +44,15 @@ class StorePackageTourRequest extends FormRequest
              */      
             // 'package_photos.*' => ['required', 'image', 'mimes:png,jpg,jpeg'],
             'photos' => ['required', 'array'],
-            'photos.*' => ['image', 'mimes:png,jpg,jpeg'],
+            'photos.*' => ['image', 'mimes:png,jpg,jpeg', 'max:2048'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'thumbnail.max' => 'Thumbnail maksimal 2MB',
+            'photos.*.max' => 'Setiap foto maksimal 2MB',
         ];
     }
 }

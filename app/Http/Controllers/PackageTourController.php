@@ -72,7 +72,7 @@ class PackageTourController extends Controller
      */
     public function show(PackageTour $packageTour)
     {
-        $latestPhotos = $packageTour->package_photos()->latest()->take(2)->get();
+        $latestPhotos = $packageTour->package_photos()->latest()->take(3)->get();
         return view('admin.package_tours.show', compact('packageTour', 'latestPhotos'));
     }
 
@@ -82,7 +82,7 @@ class PackageTourController extends Controller
     public function edit(PackageTour $packageTour)
     {
         $categories = Category::latest()->get();
-        $latestPhotos = $packageTour->package_photos()->latest()->take(2)->get();
+        $latestPhotos = $packageTour->package_photos()->latest()->take(3)->get();
         
         return view('admin.package_tours.edit', compact('packageTour', 'latestPhotos', 'categories'));
     }

@@ -63,17 +63,21 @@
 
                     <hr class="my-5">
                     
-                    <div class="flex gap-6">
-                    @for($i = 0; $i < 3; $i++)
-                        <div class="mt-4">
-                            <x-input-label for="photos" :value="__('photos ' . $i+1)" />
-                            <x-text-input id="photos" class="block mt-1 w-full" type="file" name="photos[]" />
-                            <x-input-error :messages="$errors->get('photos')" class="mt-2" />
-                        </div>
-                    @endfor
+                    <div class="mt-4">
+                        <x-input-label class="text-red-500" :value="__('*notes: maximal 10Mb')" />
                     </div>
 
-                    <div class="flex items-center justify-end mt-4">
+                    <div class="flex gap-6">
+                        @for($i = 0; $i < 3; $i++)
+                            <div class="mt-4">
+                                <x-input-label for="photos" :value="__('photos ' . $i+1)" />
+                                <x-text-input id="photos" class="block mt-1 w-full" type="file" name="photos[]" />
+                                <x-input-error :messages="$errors->get('photos.' . $i)" class="mt-2" />
+                            </div>
+                        @endfor
+                    </div>
+
+                    <div class="flex items-center justify-end mt-8">
             
                         <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
                             Add New Tour

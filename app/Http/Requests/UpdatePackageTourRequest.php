@@ -22,10 +22,10 @@ class UpdatePackageTourRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
             'name' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
-            'thumbnail' => ['sometimes', 'image', 'mimes:png,jpg,jpeg'],
+            'thumbnail' => ['sometimes', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
             'price' => ['required', 'integer'],
             'days' => ['required', 'integer'],
             'about' => ['required', 'string', 'max:100'],
@@ -43,7 +43,15 @@ class UpdatePackageTourRequest extends FormRequest
              * ]
              */      
             'photos' => ['sometimes', 'array'],
-            'photos.*' => ['image', 'mimes:png,jpg,jpeg'],
+            'photos.*' => ['image', 'mimes:png,jpg,jpeg', 'max:2048'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'thumbnail.max' => 'Thumbnail maksimal 2MB',
+            'photos.*.max' => 'Setiap foto maksimal 2MB',
         ];
     }
 }

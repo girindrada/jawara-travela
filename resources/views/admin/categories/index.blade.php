@@ -25,34 +25,68 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
 
-                @forelse ($categories as $category)
-                    <div class="item-card flex flex-row justify-between items-center">
-                        <div class="flex flex-row items-center gap-x-3">
-                            <img src="{{ Storage::url($category->icon) }}" alt="icon category" class="rounded-2xl object-cover w-[90px] h-[90px]">
-                            <div class="flex flex-col">
-                                <h3 class="text-indigo-950 text-xl font-bold">{{ $category->name }}</h3>
-                            </div>
-                        </div> 
-                        <div  class="hidden md:flex flex-col">
-                            <p class="text-slate-500 text-sm">Date</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">{{ $category->created_at->format('M D, Y') }}</h3>
-                        </div>
-                        <div class="hidden md:flex flex-row items-center gap-x-3">
-                            <a href="{{ route('admin.categories.edit', $category) }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                                Edit
-                            </a>
-                            <form action="{{ route('admin.categories.destroy', $category) }}" onclick="return confirm('Are you sure you want to delete this category?');" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="font-bold py-4 px-6 bg-red-700 text-white rounded-full">
-                                    Delete
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                @empty
-                    <p>Belum ada data category.</p>
-                @endforelse     
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="border-b bg-gray-50 text-left">
+                            <th class="p-4">name</th>
+                            <th class="p-4">Created Date</th>
+                            <th class="p-4">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @forelse ($categories as $category)
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <img 
+                                        src="{{ Storage::url($category->icon) }}"
+                                        class="w-[80px] h-[60px] object-cover rounded-lg"
+                                    >
+                                    <span class="font-semibold text-indigo-950">
+                                        {{ $category->name }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="p-4">
+                                {{ $category->created_at->format('M D, Y') }}
+                            </td>
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    
+                                    <a href="{{ route('admin.categories.edit', $category) }}"
+                                    class="px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition">
+                                        Edit
+                                    </a>
+
+                                    <form action="{{ route('admin.categories.destroy', $category) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                            class="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition">
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center py-8 text-slate-500">
+                                    <p>Belum ada data category</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+
+                <div class="mt-6 bg-white p-4 rounded-lg">
+                    {{ $categories->links('pagination::simple-tailwind') }}
+                </div>
 
             </div>
         </div>
