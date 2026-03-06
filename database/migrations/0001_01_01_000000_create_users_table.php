@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('avatar');
             $table->string('phone_number');
+            
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });
