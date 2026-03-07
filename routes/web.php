@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('can:checkout package')->group(function(){
         Route::get('book/{packageTour:slug}', [FrontController::class, 'book'])->name('front.book');
         
-        Route::post('book/{packageTour:slug}', [FrontController::class, 'books_store'])->name('front.book.store');
+        Route::post('book/{packageTour:slug}', [FrontController::class, 'book_store'])->name('front.book.store');
 
         Route::get('book/choose-bank/{packageBooking}', [FrontController::class, 'choose_bank'])->name('front.choose_bank');
 
@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function(){
         Route::middleware('can:view orders')->group(function(){
             Route::get('/my-bookings', [DashboardController::class, 'my_bookings'])->name('bookings');
-            Route::get('/my-bookings/details/{packageBooking}', [DashboardController::class, 'booking_details'])->name('booking.details');
+            Route::get('/my-bookings/details/{packageBooking}', [DashboardController::class, 'detail_bookings'])->name('booking.details');
         });
     });
 
