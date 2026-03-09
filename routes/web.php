@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 
 // halaman catalog awal yang ditampilkan di user interface tanpa login
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
+Route::get('/search', [FrontController::class, 'search'])->name('front.search');
+Route::get('/my-profile', [FrontController::class, 'profile'])->name('front.profile');
 Route::get('/category/{category:slug}', [FrontController::class, 'category'])->name('front.category');
 Route::get('/details/{packageTour:slug}', [FrontController::class, 'details'])->name('front.details');
 

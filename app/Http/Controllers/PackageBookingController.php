@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PackageBooking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PackageBookingController extends Controller
 {
@@ -12,7 +13,10 @@ class PackageBookingController extends Controller
      */
     public function index()
     {
-        //
+        $packageBookings = PackageBooking::with('customer', 'tour.category')->latest()->paginate(4);
+
+        // dd($packageBookings);
+        return view('admin.package_bookings.index', compact('packageBookings'));
     }
 
     /**
@@ -36,7 +40,7 @@ class PackageBookingController extends Controller
      */
     public function show(PackageBooking $packageBooking)
     {
-        //
+        return view('admin.package_bookings.show', compact('packageBooking'));
     }
 
     /**
@@ -52,8 +56,15 @@ class PackageBookingController extends Controller
      */
     public function update(Request $request, PackageBooking $packageBooking)
     {
-        //
+        DB::transaction(function() use ($packageBooking){
+            $packageBooking->update([
+                'is_paid' => true,
+            ]);
+        });
+
+        return redirect()->route('admin.package_bookings.index', $packageBooking)->with('success', 'status pembayaran updated succsessfully');
     }
+
 
     /**
      * Remove the specified resource from storage.

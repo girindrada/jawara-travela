@@ -29,6 +29,25 @@ class FrontController extends Controller
         return view('front.category', compact('category'));
     }
 
+    public function search(Request $request)
+    {
+        if ($request->filled('q')) {
+            $packageTours = PackageTour::where('name', 'like', '%' . $request->q . '%')
+                ->orWhere('location', 'like', '%' . $request->q . '%')
+                ->latest()
+                ->get();
+        } else {
+            $packageTours = PackageTour::latest()->take(3)->get();
+        }
+
+        return view('front.search', compact('packageTours'));
+    }
+
+    public function profile()
+    {
+        return view('front.profile');
+    }
+
     public function details(PackageTour $packageTour)
     {
         $latestPhotos = $packageTour->package_photos()->latest()->take(3)->get();
